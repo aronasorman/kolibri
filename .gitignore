@@ -92,3 +92,8 @@ Icon
 #ignore added files with DS_Store
 .DS_Store
 /crowdin.yaml
+
+# vagrant and docker files
+.vagrant/
+key.pub
+insecure.key
