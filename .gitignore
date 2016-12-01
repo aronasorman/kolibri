@@ -42,6 +42,7 @@ kolibri/locale/
 .pydevproject
 .venv
 .idea
+.vscode
 
 # Complexity
 output/*.html
