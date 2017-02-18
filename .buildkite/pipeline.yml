@@ -1,6 +1,6 @@
 steps:
   - label: Build the docker environment
-    command: make dockerenvbuild
+    command: .buildkite/build_dockerenv.sh
 
   - wait
 
