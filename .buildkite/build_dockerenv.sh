@@ -1,5 +1,6 @@
 #!/bin/bash
 
+make writeversion
 KOLIBRI_VERSION=`cat kolibri/VERSION`
 KOLIBRI_DOCKER_IMAGE_NAME=kolibri-$KOLIBRI_VERSION.dockerimg
 
