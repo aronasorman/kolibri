@@ -6,7 +6,7 @@
       class="nav-wrapper"
       :style="wrapperStyle">
       <div class="header"
-           :style="{ height: headerHeight + 'px', paddingTop: mobile ? '4px' : '8px' }">
+           :style="{ height: headerHeight + 'px', paddingTop: mobile ? '4px' : '8px', width: width + 'px' }">
         <ui-icon-button
           @click="toggleNav"
           type="secondary"
@@ -14,43 +14,74 @@
           size="large"
           icon="keyboard_arrow_left"
           :aria-label="closeNav"/>
+        <!--
         <img
           class="header-logo"
           v-if="mobile"
           src="../login-modal/icons/kolibri-logo.svg"
           alt="kolibri-logo">
         <span class="title" >Kolibri</span>
-      </div>
-      <div class="logo-large-wrapper">
-        <file-svg
-          src="../login-modal/icons/kolibri-logo.svg"
-          v-if="!mobile"
-          class="logo-large"/>
-      </div>
-      <ui-menu
-        class="nav-main"
-        :options="menuOptions"
-        hasIcons
-        @select="navigate"
-        role="navigation"
-        :aria-label="ariaLabel"
-        :style="{ maxWidth: width + 'px' }">
-      </ui-menu>
-      <div class="footer" :style="{ width: width + 'px' }">
+        -->
         <img
-          class="logo"
-          src="../login-modal/icons/kolibri-logo.svg"
-          alt=""
-          :style="{ width: width/6 + 'px', height: width/6 + 'px', marginLeft: width/20 + 'px', marginRight: width/20 + 'px' }">
-        <div class="message-container">
-          <p class="message">{{ footerMsg }}</p>
-          <p class="message">
-            <ui-icon icon="copyright"/>
-            2017 Learning Equality
-          </p>
+          class="header-logo"
+          v-if="mobile"
+          src="./instant.png"
+          alt="instant-schools-logo">
+        <span class="title">{{ $tr('instant') }}</span>
+      </div>
+      <div class="scrollable-nav" :style="{ width: width + 'px', paddingTop: `${headerHeight + 16}px` }">
+        <div class="logo-large-wrapper">
+          <img
+            src="./instant.png"
+            v-if="!mobile && !tablet"
+            class="logo-large">
+          <!--
+          <file-svg
+            src="../login-modal/icons/kolibri-logo.svg"
+            v-if="!mobile"
+            class="logo-large"/>
+          -->
+        </div>
+        <ui-menu
+          class="nav-main"
+          :options="menuOptions"
+          hasIcons
+          @select="navigate"
+          role="navigation"
+          :aria-label="ariaLabel"
+          :style="{ width: width + 'px' }">
+        </ui-menu>
+      </div>
+      <div class="footer" :style="{ width: width + 'px' }">
+        <div>
+          <img
+            class="logo"
+            src="./instant.png"
+            alt=""
+            :style="{ width: width/6 + 'px', height: width/6 + 'px', marginLeft: width/20 + 'px', marginRight: width/20 + 'px' }">
+          <div class="message-container">
+            <p class="message">{{ $tr('instant') }}</p>
+            <p class="message">
+              <ui-icon icon="copyright"/>
+              {{ $tr('vodafoneCopyright') }}
+            </p>
+          </div>
+        </div>
+        <div>
+          <img
+            class="logo"
+            src="../login-modal/icons/kolibri-logo.svg"
+            alt=""
+            :style="{ width: width/6 + 'px', height: width/6 + 'px', marginLeft: width/20 + 'px', marginRight: width/20 + 'px' }">
+          <div class="message-container">
+            <p class="message">{{ footerMsg }}</p>
+            <p class="message">
+              <ui-icon icon="copyright"/>
+              {{ $tr('learningEqualityCopyright') }}
+            </p>
+          </div>
         </div>
       </div>
-
     </div>
 
     <div v-if="navShown && mobile" class="modal-overlay"
@@ -88,6 +119,9 @@
       about: 'About',
       closeNav: 'Close navigation',
       poweredBy: 'Powered by Kolibri {version}',
+      instant: 'Instant Schools',
+      vodafoneCopyright: '2017 Vodafone Foundation',
+      learningEqualityCopyright: '2017 Learning Equality',
     },
     props: {
       topLevelPageName: {
@@ -159,8 +193,7 @@
         return this.$tr('navigationLabel');
       },
       learnActive() {
-        return (this.topLevelPageName === TopLevelPageNames.LEARN_LEARN) ||
-        (this.topLevelPageName === TopLevelPageNames.LEARN_EXPLORE);
+        return (this.topLevelPageName === TopLevelPageNames.LEARN);
       },
       coachActive() {
         return this.topLevelPageName === TopLevelPageNames.COACH;
@@ -207,14 +240,16 @@
             label: this.$tr('profile'),
             disabled: this.profileActive,
             icon: 'account_circle',
-            href: '/management',
+            href: '/user',
           });
         }
-        options.push({
-          label: this.$tr('about'),
-          disabled: this.aboutActive,
-          icon: 'error_outline',
-        });
+        /*
+         options.push({
+         label: this.$tr('about'),
+         disabled: this.aboutActive,
+         icon: 'error_outline',
+         });
+         */
         if (this.isUserLoggedIn) {
           options.push({
             label: this.$tr('signOut'),
@@ -259,7 +294,7 @@
   @require '~kolibri.styles.definitions'
   @require '~kolibri.styles.navBarItem'
 
-  $footerheight = 100px
+  $footerheight = 152px
 
   .nav-wrapper
     top: 0
@@ -276,7 +311,7 @@
       display: inline-block
       vertical-align: middle
       height: 1.5em
-      margin-right: 0.5em
+      margin-right: 0.25em
     .logo
       margin: auto
       display: inline-block
@@ -286,8 +321,8 @@
 
   .logo-large
     width: 50%
-    margin-top: 2em
-    margin-bottom: 2em
+    margin-top: 1em
+    margin-bottom: 1em
 
   .nav-main
     background: $core-bg-light
@@ -296,6 +331,10 @@
     fill: $core-bg-light
 
   .header
+    position: absolute
+    z-index: 1003
+    top: 0
+    left: 0
     font-size: 18px
     text-transform: uppercase
     overflow: auto
@@ -315,23 +354,30 @@
       font-weight: bold
       vertical-align: middle
 
-  .footer
-    bottom: 0
+  .scrollable-nav
     position: absolute
+    z-index: 1002
+    top: 0
+    left: 0
+    padding-bottom: $footerheight + 16
+    height: 100%
     overflow: auto
-    overflow-y: hidden
+
+  .footer
+    position: absolute
+    z-index: 1003
+    bottom: 0
+    left: 0
+    overflow: hidden
     background-color: $core-text-default
-    height: $footerheight
-    .logo, .message-container
-      top: 50%
-      transform: translateY(-50%)
-      position: relative
+    padding-top: 1em
+    padding-bottom: 1em
     .logo
       float: left
     .message-container
       .message
         color: $core-bg-light
-        font-size: ($footerheight/10)
+        font-size: x-small
 
   .modal-overlay
     position: fixed

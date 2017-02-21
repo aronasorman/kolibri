@@ -1,6 +1,6 @@
 <template>
 
-  <core-base :topLevelPageName="topLevelPageName">
+  <core-base :topLevelPageName="topLevelPageName" :appBarTitle="$tr('managementTitle')">
 
     <div v-if="isAdminOrSuperuser" slot="content">
       <div class="manage-content">
@@ -29,6 +29,7 @@
   module.exports = {
     $trNameSpace: 'management-root',
     $trs: {
+      managementTitle: 'Management',
       logInPrompt: 'Did you forget to log in?',
       logInCommand: 'You must be logged in as an Admin to view this page.',
     },
@@ -85,7 +86,7 @@
     padding: 1em 2em
     padding-bottom: 3em
     background-color: $core-bg-light
-    margin-top: 2em
+    margin-top: 1em
     border-radius: $radius
 
   .login-message

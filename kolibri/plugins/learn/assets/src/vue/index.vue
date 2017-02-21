@@ -1,21 +1,22 @@
 <template>
 
-  <core-base :topLevelPageName="topLevelPageName">
+  <core-base :topLevelPageName="topLevelPageName" :appBarTitle="$tr('learnTitle')">
     <div slot="app-bar-actions">
       <channel-switcher @switch="switchChannel"/>
+      <!--
       <ui-icon-button
         icon="search"
         type="secondary"
         color="white"
         :ariaLabel="$tr('search')"
         @click="toggleSearch"/>
+        -->
     </div>
     <div slot="content">
       <section-nav/>
       <breadcrumbs/>
-      <component class="content" :is="currentPage"/>
+      <component :is="currentPage"/>
     </div>
-
     <div slot="extra" class="search-pane" v-show="searchOpen">
       <search-widget :showTopics="exploreMode"/>
     </div>
@@ -38,6 +39,7 @@
   module.exports = {
     $trNameSpace: 'learn',
     $trs: {
+      learnTitle: 'Learn',
       search: 'search',
     },
     components: {
@@ -73,10 +75,7 @@
     },
     computed: {
       topLevelPageName() {
-        if (this.exploreMode) {
-          return TopLevelPageNames.LEARN_EXPLORE;
-        }
-        return TopLevelPageNames.LEARN_LEARN;
+        return TopLevelPageNames.LEARN;
       },
       currentPage() {
         if (this.pageName === PageNames.EXPLORE_CHANNEL ||
@@ -137,7 +136,6 @@
       padding-left: $nav-width
 
   .content
-    width-auto-adjust()
     margin: auto
 
 </style>

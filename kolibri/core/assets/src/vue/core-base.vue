@@ -2,11 +2,12 @@
 
   <div :class="`gutter-${windowSize.gutterWidth}`">
     <app-bar
-      :style="navOpenStyle"
+      class="app-bar"
+      :style="navStyle"
       @toggleSideNav="navShown=!navShown"
-      :title="topLevelPageName"
+      :title="appBarTitle"
       :navShown="navShown"
-      :height="baseMaterialIncrement">
+      :height="headerHeight">
       <div slot="app-bar-actions" class="app-bar-actions">
         <slot name="app-bar-actions"/>
       </div>
@@ -15,10 +16,10 @@
       @toggleSideNav="navShown=!navShown"
       :topLevelPageName="topLevelPageName"
       :navShown="navShown"
-      :headerHeight="baseMaterialIncrement"
+      :headerHeight="headerHeight"
       :width="navWidth"/>
     <loading-spinner v-if="loading" class="loading-spinner-fixed"/>
-    <div v-if="!loading" :style="navOpenStyle">
+    <div v-if="!loading" :style="contentStyle" class="content-container">
       <error-box v-if="error"/>
       <slot name="content"/>
     </div>
@@ -48,6 +49,10 @@
           }
           return values(TopLevelPageNames).includes(value);
         },
+      },
+      appBarTitle: {
+        type: String,
+        required: false,
       },
     },
     components: {
@@ -84,26 +89,27 @@
       mobile() {
         return this.windowSize.breakpoint < 2;
       },
-      baseMaterialIncrement() {
+      headerHeight() {
         return this.mobile ? 56 : 64;
       },
       navWidth() {
-        return this.baseMaterialIncrement * 5;
+        return 270;
       },
-      tablet() {
-        return (this.windowSize.breakpoint > 1) && (this.windowSize.breakpoint < 5);
-      },
-      paddingForNav() {
-        if (this.mobile || (this.tablet && !this.navShown)) {
-          return 0;
+      navPadding() {
+        const PADDING = 32;
+        if (this.mobile || !this.navShown) {
+          return PADDING;
         }
-        return this.navWidth;
+        return this.navWidth + PADDING;
       },
-      navOpenStyle() {
+      navStyle() {
         if (this.navShown) {
-          return { marginLeft: `${this.paddingForNav}px` };
+          return { paddingLeft: `${this.navPadding}px` };
         }
         return '';
+      },
+      contentStyle() {
+        return { left: `${this.navPadding}px`, top: `${this.headerHeight}px` };
       },
     },
     mounted() {
@@ -123,7 +129,24 @@
   .loading-spinner-fixed
     position: fixed
 
+  .app-bar
+    height: 64px
+    z-index: 50
+    width: 100%
+    position: absolute
+    top: 0
+    left: 0
+
   .app-bar-actions
     display: inline-block
+
+  .content-container
+    position: absolute
+    overflow-y: auto
+    overflow-x: hidden
+    right: 0
+    bottom: 0
+    padding-bottom: 40px
+    padding-right: 32px
 
 </style>
