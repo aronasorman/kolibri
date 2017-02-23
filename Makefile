@@ -72,8 +72,8 @@ writeversion:
 
 dist: writeversion staticdeps assets compilemessages
 	pip install -r requirements/build.txt
-	python setup.py sdist --format=gztar,zip --static > /dev/null # silence the sdist output! Too noisy!
-	python setup.py bdist_wheel --static
+	python setup.py sdist --format=gztar,zip > /dev/null # silence the sdist output! Too noisy!
+	python setup.py bdist_wheel
 	ls -l dist
 
 pex:

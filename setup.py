@@ -6,7 +6,6 @@ import logging
 import os
 import sys
 
-from pip.req import parse_requirements
 from setuptools import setup
 from setuptools.command.install_scripts import install_scripts
 
@@ -46,22 +45,13 @@ is_building_dist = any([
 
 static_dir = os.path.dirname(os.path.realpath(kolibri_dist.__file__))
 
-# Check if user supplied the special '--static' option
-if '--static' in sys.argv:
-    sys.argv.remove('--static')
-    dist_name = 'kolibri'
-    description += " This static version bundles all dependencies."
-    install_requires, static_requirements = [], []
-    dependency_links = []
-    static_build = True
-else:
-    req_file = os.path.join(
-        os.path.dirname(os.path.realpath(__file__)), "requirements.txt"
-    )
-    reqs = parse_requirements(req_file, session=False)
-    install_requires = [str(ir.req) for ir in reqs]
-    static_requirements = []
-    dependency_links = []
+# Always build statically.
+# Note: extend to allow a package that has dynamic dependencies.
+dist_name = 'kolibri'
+description += " This static version bundles all dependencies."
+install_requires, static_requirements = [], []
+dependency_links = []
+static_build = True
 
 ################
 # Windows code #
