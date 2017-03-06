@@ -49,7 +49,7 @@ test-all:
 	tox
 
 assets: staticdeps
-	BUILD=true PYTHONPATH=$PWD/kolibri/dist:$PYTHONPATH yarn run build
+	BUILD=true DJANGO_SETTINGS_MODULE=kolibri.deployment.default.settings.build PYTHONPATH=$PWD/kolibri/dist:$PYTHONPATH yarn run build
 
 coverage:
 	coverage run --source kolibri setup.py test
