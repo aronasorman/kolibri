@@ -49,7 +49,7 @@ test-all:
 	tox
 
 assets: staticdeps
-	yarn run build
+	BUILD=true PYTHONPATH=$PWD/kolibri/dist:$PYTHONPATH yarn run build
 
 coverage:
 	coverage run --source kolibri setup.py test
